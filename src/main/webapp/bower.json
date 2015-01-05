@@ -1,0 +1,25 @@
+{
+  "name": "booklib",
+  "version": "0.0.1",
+  "homepage": "https://github.com/springside/booklib",
+  "authors": [
+    "junxiong <shaojunxiong@gmail.com>"
+  ],
+  "description": "book library",
+  "main": "app.js",
+  "keywords": [
+    "booklib"
+  ],
+  "license": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "~0.6.1",
+    "ramda": "~0.8.0"
+  }
+}

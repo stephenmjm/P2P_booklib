@@ -1,11 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>CGC Book Library</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
 </head>
-<body>
-	Hello World!!
+<body ng-app="BookLibraryApp">
+  <div ng-controller="BookShelfCtrl">
+    <md-content>
+      <md-list>
+        <md-item ng-repeat="book in books">
+          <md-item-content>
+            <div class="md-tile-left">
+                <img ng-src="{{book.iconUrl}}" class="face" alt="{{book.title}}">
+            </div>
+            <div class="md-tile-content">
+              <h3>{{book.title}}</h3>
+              <h4>{{book.author}}</h4>
+              <p>
+                {{book.notes}}
+              </p>
+            </div>
+          </md-item-content>
+        </md-item>
+      </md-list>
+    </md-content>
+  </div>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/hammerjs/hammer.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/ramda/ramda.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
 
