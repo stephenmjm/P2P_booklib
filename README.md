@@ -1,4 +1,4 @@
 booklib
 =======
 
-book library application
+Book Library Application, see [Wiki](https://github.com/springside/booklib/wiki) for details.
