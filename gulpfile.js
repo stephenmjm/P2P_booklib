@@ -4,6 +4,7 @@ var coffee = require('gulp-coffee');
 var clean = require('gulp-clean');
 var stylus = require('gulp-stylus');
 var concat = require('gulp-concat');
+var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('clean-bower-components', function () {
   return gulp.src('src/main/webapp/bower_components/*', {read: false})
@@ -22,8 +23,10 @@ gulp.task('clean-scripts', function () {
 
 gulp.task('compile-coffee-script', ['clean-scripts'], function () {
   gulp.src('src/main/coffee/**/*.coffee')
+    .pipe(sourcemaps.init({debug: true}))
     .pipe(coffee())
     .pipe(concat('main.js'))
+    .pipe(sourcemaps.write('maps', {debug: true}))
     .pipe(gulp.dest('src/main/webapp/scripts/'));
 });
 
