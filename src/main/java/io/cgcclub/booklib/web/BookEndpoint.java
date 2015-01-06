@@ -161,8 +161,8 @@ public class BookEndpoint {
 		return bookDao.findByOwnerId(account.id);
 	}
 
-	@RequestMapping(value = "/rest/myborrowbook", produces = MediaTypes.JSON_UTF_8)
-	public Iterable<Book> listMyBorrowBook(HttpSession session) {
+	@RequestMapping(value = "/rest/myborrowedbook", produces = MediaTypes.JSON_UTF_8)
+	public Iterable<Book> listMyBorrowedBook(HttpSession session) {
 		Account account = getCurrentAccount(session);
 		return bookDao.findByBorrowerId(account.id);
 	}
