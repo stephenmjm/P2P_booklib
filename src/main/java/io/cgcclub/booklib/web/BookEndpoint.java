@@ -3,6 +3,7 @@ package io.cgcclub.booklib.web;
 import io.cgcclub.booklib.domain.Account;
 import io.cgcclub.booklib.domain.Book;
 import io.cgcclub.booklib.repository.BookDao;
+import io.cgcclub.booklib.service.MailService;
 import io.cgcclub.booklib.web.support.MediaTypes;
 import io.cgcclub.booklib.web.support.RestException;
 
@@ -23,6 +24,8 @@ public class BookEndpoint {
 
 	@Autowired
 	private BookDao bookDao;
+	@Autowired
+	private MailService mailService;
 
 	@RequestMapping(value = "/rest/books", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Iterable<Book> listAllBook() {
@@ -31,8 +34,8 @@ public class BookEndpoint {
 
 	@RequestMapping(value = "/rest/books", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
 	public void createBook(@RequestBody Book book, HttpSession session) {
-		Account account = getCurrentAccount(session);
-		book.owner = account;
+		Account owner = getCurrentAccount(session);
+		book.owner = owner;
 		book.status = Book.STATUS_IDLE;
 		book.onboardDate = new Date();
 		bookDao.save(book);
@@ -40,8 +43,8 @@ public class BookEndpoint {
 
 	@RequestMapping(value = "/rest/books/{id}/modify", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
 	public void modifyBook(@RequestBody Book book, HttpSession session) {
-		Account account = getCurrentAccount(session);
-		if (!account.id.equals(book.owner.id)) {
+		Account owner = getCurrentAccount(session);
+		if (!owner.id.equals(book.owner.id)) {
 			throw new RestException("User can't modify others book", HttpStatus.FORBIDDEN);
 		}
 
@@ -51,103 +54,119 @@ public class BookEndpoint {
 		bookDao.save(orginalBook);
 	}
 
-	@RequestMapping(value = "/rest/books/{id}/delete", method = RequestMethod.GET, consumes = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/rest/books/{id}/delete")
 	public void deleteBook(@PathVariable("id") Long id, HttpSession session) {
-		Account account = getCurrentAccount(session);
+		Account owner = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
-		if (!account.id.equals(book.owner.id)) {
+		if (!owner.id.equals(book.owner.id)) {
 			throw new RestException("User can't delte others book", HttpStatus.FORBIDDEN);
 		}
 
 		bookDao.delete(id);
 	}
 
-	@RequestMapping(value = "/rest/books/{id}/request", method = RequestMethod.GET, consumes = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/rest/books/{id}/request")
 	public void applyRequestBook(@PathVariable("id") Long id, HttpSession session) {
-		Account account = getCurrentAccount(session);
+		Account borrower = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
 		if (!book.status.equals(Book.STATUS_IDLE)) {
 			throw new RestException("The book is not idle", HttpStatus.BAD_REQUEST);
 		}
 
+		mailService.sendMail(book.owner.email,
+				String.format("Request book %s by %s (%s)", book.title, borrower.name, borrower.email),
+				"You can go to CGC Book Library for details");
+
 		book.status = Book.STATUS_REQUEST;
-		book.borrower = account;
-		// TODO: send notify mail
+		book.borrower = borrower;
 		bookDao.save(book);
 	}
 
-	@RequestMapping(value = "/rest/books/{id}/cancel", method = RequestMethod.GET, consumes = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/rest/books/{id}/cancel")
 	public void cancelRequestBook(@PathVariable("id") Long id, HttpSession session) {
-		Account account = getCurrentAccount(session);
+		Account borrower = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
 		if (!book.status.equals(Book.STATUS_REQUEST)) {
 			throw new RestException("The book is not requesting", HttpStatus.BAD_REQUEST);
 		}
 
-		if (!account.id.equals(book.borrower.id)) {
+		if (!borrower.id.equals(book.borrower.id)) {
 			throw new RestException("User can't cancel other ones request", HttpStatus.FORBIDDEN);
 		}
+
+		mailService.sendMail(book.owner.email,
+				String.format("Cancel book %s request by %s (%s)", book.title, borrower.name, borrower.email),
+				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_IDLE;
 		book.borrower = null;
 		bookDao.save(book);
-		// TODO: send notify mail
 	}
 
-	@RequestMapping(value = "/rest/books/{id}/confirm", method = RequestMethod.GET, consumes = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/rest/books/{id}/confirm")
 	public void confirmRequestBook(@PathVariable("id") Long id, HttpSession session) {
-		Account account = getCurrentAccount(session);
+		Account owner = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
 		if (!book.status.equals(Book.STATUS_REQUEST)) {
 			throw new RestException("The book is not requesting", HttpStatus.BAD_REQUEST);
 		}
 
-		if (!account.id.equals(book.owner.id)) {
+		if (!owner.id.equals(book.owner.id)) {
 			throw new RestException("User can't cofirm others book", HttpStatus.FORBIDDEN);
 		}
+
+		mailService.sendMail(book.borrower.email,
+				String.format("Confirm book %s request by %s (%s)", book.title, owner.name, owner.email),
+				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_OUT;
 		book.borrowDate = new Date();
 		bookDao.save(book);
-		// TODO: send notify mail
 	}
 
-	@RequestMapping(value = "/rest/books/{id}/reject", method = RequestMethod.GET, consumes = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/rest/books/{id}/reject")
 	public void rejectRequestBook(@PathVariable("id") Long id, HttpSession session) {
-		Account account = getCurrentAccount(session);
+		Account owner = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
 		if (!book.status.equals(Book.STATUS_REQUEST)) {
 			throw new RestException("The book is not requesting", HttpStatus.BAD_REQUEST);
 		}
 
-		if (!account.id.equals(book.owner.id)) {
+		if (!owner.id.equals(book.owner.id)) {
 			throw new RestException("User can't cofirm others book", HttpStatus.FORBIDDEN);
 		}
+
+		mailService.sendMail(book.borrower.email,
+				String.format("Reject book %s request by %s (%s)", book.title, owner.name, owner.email),
+				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_IDLE;
 		book.borrowDate = null;
 		book.borrower = null;
 		bookDao.save(book);
-		// TODO: send notify mail
 	}
 
-	@RequestMapping(value = "/rest/books/{id}/return", method = RequestMethod.GET, consumes = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/rest/books/{id}/return")
 	public void returnBook(@PathVariable("id") Long id, HttpSession session) {
-		Account account = getCurrentAccount(session);
+		Account owner = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
-		if (!account.id.equals(book.owner.id)) {
+		if (!owner.id.equals(book.owner.id)) {
 			throw new RestException("User can't cofirm others book", HttpStatus.FORBIDDEN);
 		}
 
 		if (!book.status.equals(Book.STATUS_OUT)) {
 			throw new RestException("The book is not borrowing", HttpStatus.BAD_REQUEST);
 		}
+
+		mailService.sendMail(book.borrower.email,
+				String.format("Mark book %s returned by %s (%s)", book.title, owner.name, owner.email),
+				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_IDLE;
 		book.borrowDate = null;
