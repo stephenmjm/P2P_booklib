@@ -32,7 +32,7 @@ gulp.task('copy-html-files', function () {
     .pipe(gulp.dest('src/main/webapp/scripts/'));
 });
 
-gulp.watch('src/main/coffee/**/*.coffee', ['compile-coffee-script']);
+//gulp.watch('src/main/coffee/**/*.coffee', ['compile-coffee-script']);
 
 gulp.task('default', ['copy-bower-components', 'compile-coffee-script', 'copy-html-files']);
 
