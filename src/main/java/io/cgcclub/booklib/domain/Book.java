@@ -26,13 +26,13 @@ public class Book {
 	@JoinColumn(name = "owner_id")
 	public Account owner;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+08:00")
 	public Date onboardDate;
 
 	@ManyToOne
 	@JoinColumn(name = "borrower_id")
 	public Account borrower;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+08:00")
 	public Date borrowDate;
 }

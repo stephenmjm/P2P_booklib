@@ -9,4 +9,5 @@ public class Account {
 	public Long id;
 	public String email;
 	public String name;
+	public String hashPassword;
 }
