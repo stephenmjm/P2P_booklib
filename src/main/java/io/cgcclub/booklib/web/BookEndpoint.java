@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BookEndpoint {
 
+	private static final String MAIL_CONTENT = "You can go to CGC Book Library for details http://cgcbooklib.herokuapp.com/ ";
+
 	@Autowired
 	private BookDao bookDao;
 	@Autowired
@@ -76,8 +78,7 @@ public class BookEndpoint {
 		}
 
 		mailService.sendMail(book.owner.email, borrower.email,
-				String.format("Request book %s by %s", book.title, borrower.name),
-				"You can go to CGC Book Library for details");
+				String.format("Request book %s by %s", book.title, borrower.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_REQUEST;
 		book.borrower = borrower;
@@ -98,8 +99,7 @@ public class BookEndpoint {
 		}
 
 		mailService.sendMail(book.owner.email, borrower.email,
-				String.format("Cancel book %s request by %s", book.title, borrower.name),
-				"You can go to CGC Book Library for details");
+				String.format("Cancel book %s request by %s", book.title, borrower.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_IDLE;
 		book.borrower = null;
@@ -120,8 +120,7 @@ public class BookEndpoint {
 		}
 
 		mailService.sendMail(book.borrower.email, owner.email,
-				String.format("Confirm book %s request by %s", book.title, owner.name),
-				"You can go to CGC Book Library for details");
+				String.format("Confirm book %s request by %s", book.title, owner.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_OUT;
 		book.borrowDate = new Date();
@@ -142,8 +141,7 @@ public class BookEndpoint {
 		}
 
 		mailService.sendMail(book.borrower.email, owner.email,
-				String.format("Reject book %s request by %s", book.title, owner.name),
-				"You can go to CGC Book Library for details");
+				String.format("Reject book %s request by %s", book.title, owner.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_IDLE;
 		book.borrowDate = null;
@@ -165,8 +163,7 @@ public class BookEndpoint {
 		}
 
 		mailService.sendMail(book.borrower.email, owner.email,
-				String.format("Mark book %s returned by %s", book.title, owner.name),
-				"You can go to CGC Book Library for details");
+				String.format("Mark book %s returned by %s", book.title, owner.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_IDLE;
 		book.borrowDate = null;
