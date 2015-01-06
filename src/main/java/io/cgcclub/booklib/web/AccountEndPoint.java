@@ -18,7 +18,7 @@ public class AccountEndPoint {
 	@Autowired
 	private AccountDao accountDao;
 
-	@RequestMapping(value = "/rest/login")
+	@RequestMapping(value = "/rest/accounts/login")
 	public void login(@RequestParam("email") String email, @RequestParam("password") String password,
 			HttpSession session) {
 		Account account = accountDao.findByEmail(email);
@@ -28,5 +28,15 @@ public class AccountEndPoint {
 		} else {
 			throw new RestException("User not exist", HttpStatus.UNAUTHORIZED);
 		}
+	}
+
+	@RequestMapping(value = "/rest/accounts/register")
+	public void register(@RequestParam("email") String email, @RequestParam("name") String name,
+			@RequestParam("password") String password, HttpSession session) {
+		Account account = new Account();
+		account.email = email;
+		account.name = name;
+
+		accountDao.save(account);
 	}
 }
