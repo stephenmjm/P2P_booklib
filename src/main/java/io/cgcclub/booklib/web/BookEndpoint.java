@@ -11,6 +11,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +26,11 @@ public class BookEndpoint {
 
 	private static final String MAIL_CONTENT = "You can go to CGC Book Library for details http://cgcbooklib.herokuapp.com/ ";
 
+	private static Logger logger = LoggerFactory.getLogger(BookEndpoint.class);
+
 	@Autowired
 	private BookDao bookDao;
+
 	@Autowired
 	private MailService mailService;
 
@@ -62,14 +67,14 @@ public class BookEndpoint {
 		Book book = bookDao.findOne(id);
 
 		if (!owner.id.equals(book.owner.id)) {
-			throw new RestException("User can't delte others book", HttpStatus.FORBIDDEN);
+			throw new RestException("User can't delete others book", HttpStatus.FORBIDDEN);
 		}
 
 		bookDao.delete(id);
 	}
 
 	@RequestMapping(value = "/rest/books/{id}/request")
-	public void applyRequestBook(@PathVariable("id") Long id, HttpSession session) {
+	public void applyBorrowRequest(@PathVariable("id") Long id, HttpSession session) {
 		Account borrower = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
@@ -77,8 +82,12 @@ public class BookEndpoint {
 			throw new RestException("The book is not idle", HttpStatus.BAD_REQUEST);
 		}
 
+		if (borrower.id.equals(book.owner.id)) {
+			throw new RestException("User shouldn't borrower the book which is himeself", HttpStatus.FORBIDDEN);
+		}
+
 		mailService.sendMail(book.owner.email, borrower.email,
-				String.format("Request book %s by %s", book.title, borrower.name), MAIL_CONTENT);
+				String.format("Request book <%s> by %s", book.title, borrower.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_REQUEST;
 		book.borrower = borrower;
@@ -86,7 +95,7 @@ public class BookEndpoint {
 	}
 
 	@RequestMapping(value = "/rest/books/{id}/cancel")
-	public void cancelRequestBook(@PathVariable("id") Long id, HttpSession session) {
+	public void cancelBorrowRequest(@PathVariable("id") Long id, HttpSession session) {
 		Account borrower = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
@@ -99,7 +108,7 @@ public class BookEndpoint {
 		}
 
 		mailService.sendMail(book.owner.email, borrower.email,
-				String.format("Cancel book %s request by %s", book.title, borrower.name), MAIL_CONTENT);
+				String.format("Cancel book <%s> request by %s", book.title, borrower.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_IDLE;
 		book.borrower = null;
@@ -107,7 +116,7 @@ public class BookEndpoint {
 	}
 
 	@RequestMapping(value = "/rest/books/{id}/confirm")
-	public void confirmRequestBook(@PathVariable("id") Long id, HttpSession session) {
+	public void markBookBorrowed(@PathVariable("id") Long id, HttpSession session) {
 		Account owner = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
@@ -120,7 +129,7 @@ public class BookEndpoint {
 		}
 
 		mailService.sendMail(book.borrower.email, owner.email,
-				String.format("Confirm book %s request by %s", book.title, owner.name), MAIL_CONTENT);
+				String.format("Confirm book <%s> request by %s", book.title, owner.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_OUT;
 		book.borrowDate = new Date();
@@ -128,7 +137,7 @@ public class BookEndpoint {
 	}
 
 	@RequestMapping(value = "/rest/books/{id}/reject")
-	public void rejectRequestBook(@PathVariable("id") Long id, HttpSession session) {
+	public void rejectBorrowRequest(@PathVariable("id") Long id, HttpSession session) {
 		Account owner = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
 
@@ -137,11 +146,11 @@ public class BookEndpoint {
 		}
 
 		if (!owner.id.equals(book.owner.id)) {
-			throw new RestException("User can't cofirm others book", HttpStatus.FORBIDDEN);
+			throw new RestException("User can't reject others book", HttpStatus.FORBIDDEN);
 		}
 
 		mailService.sendMail(book.borrower.email, owner.email,
-				String.format("Reject book %s request by %s", book.title, owner.name), MAIL_CONTENT);
+				String.format("Reject book <%s> request by %s", book.title, owner.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_IDLE;
 		book.borrowDate = null;
@@ -150,20 +159,20 @@ public class BookEndpoint {
 	}
 
 	@RequestMapping(value = "/rest/books/{id}/return")
-	public void returnBook(@PathVariable("id") Long id, HttpSession session) {
+	public void markBookReturned(@PathVariable("id") Long id, HttpSession session) {
 		Account owner = getCurrentAccount(session);
 		Book book = bookDao.findOne(id);
-
-		if (!owner.id.equals(book.owner.id)) {
-			throw new RestException("User can't cofirm others book", HttpStatus.FORBIDDEN);
-		}
 
 		if (!book.status.equals(Book.STATUS_OUT)) {
 			throw new RestException("The book is not borrowing", HttpStatus.BAD_REQUEST);
 		}
 
+		if (!owner.id.equals(book.owner.id)) {
+			throw new RestException("User can't make others book returned", HttpStatus.FORBIDDEN);
+		}
+
 		mailService.sendMail(book.borrower.email, owner.email,
-				String.format("Mark book %s returned by %s", book.title, owner.name), MAIL_CONTENT);
+				String.format("Mark book <%s> returned by %s", book.title, owner.name), MAIL_CONTENT);
 
 		book.status = Book.STATUS_IDLE;
 		book.borrowDate = null;

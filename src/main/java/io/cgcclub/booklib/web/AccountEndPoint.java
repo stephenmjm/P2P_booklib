@@ -8,6 +8,8 @@ import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,8 @@ import com.google.common.hash.Hashing;
 
 @RestController
 public class AccountEndPoint {
+
+	private static Logger logger = LoggerFactory.getLogger(BookEndpoint.class);
 
 	@Autowired
 	private AccountDao accountDao;
