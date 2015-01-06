@@ -4,4 +4,7 @@ target/
 .project
 .idea/
 *.iml
+node
 bower_components
+node_modules
+scripts
