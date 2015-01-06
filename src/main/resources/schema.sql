@@ -4,10 +4,10 @@ create table book (
 	url varchar(255),
 	description varchar(255),
 	owner_id bigint not null,
-	onboard_date bigint,
+	onboard_date date,
 	status varchar(32) not null,
 	borrower_id bigint null,
-	borrow_date bigint,
+	borrow_date date,
     primary key (id)
 );
 

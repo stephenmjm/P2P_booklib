@@ -1,9 +1,13 @@
 package io.cgcclub.booklib.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Book {
@@ -16,14 +20,19 @@ public class Book {
 	public Long id;
 	public String title;
 	public String url;
+	public String status;
+
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	public Account owner;
-	public Long onboardDate;
 
-	public String status;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date onboardDate;
+
 	@ManyToOne
 	@JoinColumn(name = "borrower_id")
 	public Account borrower;
-	public Long borrowDate;
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date borrowDate;
 }
