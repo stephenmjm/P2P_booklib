@@ -75,8 +75,8 @@ public class BookEndpoint {
 			throw new RestException("The book is not idle", HttpStatus.BAD_REQUEST);
 		}
 
-		mailService.sendMail(book.owner.email,
-				String.format("Request book %s by %s (%s)", book.title, borrower.name, borrower.email),
+		mailService.sendMail(book.owner.email, borrower.email,
+				String.format("Request book %s by %s", book.title, borrower.name),
 				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_REQUEST;
@@ -97,8 +97,8 @@ public class BookEndpoint {
 			throw new RestException("User can't cancel other ones request", HttpStatus.FORBIDDEN);
 		}
 
-		mailService.sendMail(book.owner.email,
-				String.format("Cancel book %s request by %s (%s)", book.title, borrower.name, borrower.email),
+		mailService.sendMail(book.owner.email, borrower.email,
+				String.format("Cancel book %s request by %s", book.title, borrower.name),
 				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_IDLE;
@@ -119,8 +119,8 @@ public class BookEndpoint {
 			throw new RestException("User can't cofirm others book", HttpStatus.FORBIDDEN);
 		}
 
-		mailService.sendMail(book.borrower.email,
-				String.format("Confirm book %s request by %s (%s)", book.title, owner.name, owner.email),
+		mailService.sendMail(book.borrower.email, owner.email,
+				String.format("Confirm book %s request by %s", book.title, owner.name),
 				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_OUT;
@@ -141,8 +141,8 @@ public class BookEndpoint {
 			throw new RestException("User can't cofirm others book", HttpStatus.FORBIDDEN);
 		}
 
-		mailService.sendMail(book.borrower.email,
-				String.format("Reject book %s request by %s (%s)", book.title, owner.name, owner.email),
+		mailService.sendMail(book.borrower.email, owner.email,
+				String.format("Reject book %s request by %s", book.title, owner.name),
 				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_IDLE;
@@ -164,8 +164,8 @@ public class BookEndpoint {
 			throw new RestException("The book is not borrowing", HttpStatus.BAD_REQUEST);
 		}
 
-		mailService.sendMail(book.borrower.email,
-				String.format("Mark book %s returned by %s (%s)", book.title, owner.name, owner.email),
+		mailService.sendMail(book.borrower.email, owner.email,
+				String.format("Mark book %s returned by %s", book.title, owner.name),
 				"You can go to CGC Book Library for details");
 
 		book.status = Book.STATUS_IDLE;
