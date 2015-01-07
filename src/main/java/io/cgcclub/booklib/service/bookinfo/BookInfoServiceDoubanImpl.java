@@ -1,6 +1,4 @@
-package io.cgcclub.booklib.service.impl;
-
-import io.cgcclub.booklib.service.entry.BookInfo;
+package io.cgcclub.booklib.service.bookinfo;
 
 import java.io.IOException;
 
@@ -16,21 +14,17 @@ public class BookInfoServiceDoubanImpl {
 
 	private static final String DOUBAN_URL = "https://api.douban.com/v2/book/%s?fields=id,title,url,image,author,summary";
 
-	private static final ObjectMapper MAPPER = new ObjectMapper();
+	private static Logger logger = LoggerFactory.getLogger(BookInfoServiceDoubanImpl.class);
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(BookInfoServiceDoubanImpl.class);
+	private static ObjectMapper jsonMapper = new ObjectMapper();
 
 	public BookInfo findBookInfo(String doubanBookId) {
 		String doubanQueryRequestUrl = String.format(DOUBAN_URL, doubanBookId);
 		try {
-			String bookInfoJsonString = Request.Get(doubanQueryRequestUrl)
-					.execute().returnContent().asString();
-			return MAPPER.readValue(bookInfoJsonString, BookInfo.class);
+			String bookInfoJsonString = Request.Get(doubanQueryRequestUrl).execute().returnContent().asString();
+			return jsonMapper.readValue(bookInfoJsonString, BookInfo.class);
 		} catch (IOException e) {
-			logger.error(
-					"Failed to retrieve book info from douban for bookId: {}.",
-					doubanBookId);
+			logger.error("Failed to retrieve book info from douban for bookId: " + doubanBookId + ".", e);
 		}
 
 		return null;
