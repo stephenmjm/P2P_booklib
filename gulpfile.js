@@ -1,41 +1,17 @@
-var gulp = require('gulp');
+/*
+  gulpfile.js
+  ===========
+  Rather than manage one giant configuration file responsible
+  for creating multiple tasks, each task has been broken out into
+  its own file in gulp/tasks. Any files in that directory get
+  automatically required below.
 
-var coffee = require('gulp-coffee');
-var clean = require('gulp-clean');
-var stylus = require('gulp-stylus');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
+  To add a new task, simply add a new task file that directory.
+  gulp/tasks/default.js specifies the default set of tasks to run
+  when you run `gulp`.
+*/
 
-gulp.task('clean-bower-components', function () {
-  return gulp.src('src/main/webapp/bower_components/*', {read: false})
-    .pipe(clean());
-});
+var requireDir = require('require-dir');
 
-gulp.task('copy-bower-components', ['clean-bower-components'], function () {
-  gulp.src('bower_components/**')
-    .pipe(gulp.dest('src/main/webapp/bower_components'));
-});
-
-gulp.task('clean-scripts', function () {
-  return gulp.src('src/main/webapp/scripts/*', {read: false})
-    .pipe(clean());
-});
-
-gulp.task('compile-coffee-script', ['clean-scripts'], function () {
-  gulp.src('src/main/coffee/**/*.coffee')
-    .pipe(sourcemaps.init({debug: true}))
-    .pipe(coffee())
-    .pipe(concat('main.js'))
-    .pipe(sourcemaps.write('maps', {debug: true}))
-    .pipe(gulp.dest('src/main/webapp/scripts/'));
-});
-
-gulp.task('copy-html-files', function () {
-  gulp.src('src/main/coffee/**/*.html')
-    .pipe(gulp.dest('src/main/webapp/scripts/'));
-});
-
-//gulp.watch('src/main/coffee/**/*.coffee', ['compile-coffee-script']);
-
-gulp.task('default', ['copy-bower-components', 'compile-coffee-script', 'copy-html-files']);
-
+// Require all tasks in gulp/tasks, including subfolders
+requireDir('./gulp/tasks', { recurse: true });
