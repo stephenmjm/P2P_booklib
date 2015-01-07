@@ -1,4 +1,4 @@
-package io.cgcclub.booklib.service.entry;
+package io.cgcclub.booklib.service.bookinfo;
 
 import java.util.List;
 
