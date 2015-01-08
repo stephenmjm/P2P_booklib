@@ -35,4 +35,12 @@ public class Book {
 
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+08:00")
 	public Date borrowDate;
+
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", title=" + title + ", url=" + url
+				+ ", status=" + status + ", owner=" + owner + ", onboardDate="
+				+ onboardDate + ", borrower=" + borrower + ", borrowDate="
+				+ borrowDate + "]";
+	}
 }
