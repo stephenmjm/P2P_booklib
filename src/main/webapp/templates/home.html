@@ -1,0 +1,25 @@
+<div class="l-header">
+    <h1>CGC Book Shelf</h1>
+    <h2>Feel free to share your favourite books.</h2>
+</div>
+
+<!-- <nav class="l-navigation">
+    <a class="button">showRight</a>
+</nav> -->
+
+<md-button ng-click="toggleDetail()" class="md-primary">
+    ShowDetail
+</md-button>
+
+<div class="deckgrid" deckgrid source="books" cardTemplate="templates/deckgrid-card.html"></div>
+
+<md-sidenav md-component-id="detail" class="md-sidenav-right">
+    <md-toolbar class="md-theme-light">
+      <h1 class="md-toolbar-tools">Book Details</h1>
+    </md-toolbar>
+    <md-content class="md-padding">
+      <md-button ng-click="close()" class="md-primary">
+        Close
+      </md-button>
+    </md-content>
+</md-sidenav>
