@@ -14,7 +14,8 @@ angular.module('BookLibraryApp').config([
 
         $routeProvider.when('/', {
             controller: 'HomeController',
-            templateUrl: 'templates/home.html'
+            templateUrl: 'templates/home.html',
+            resolve: HomeController.resolve
         });
 
     }
