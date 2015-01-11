@@ -2,12 +2,15 @@ package io.cgcclub.booklib.web;
 
 import io.cgcclub.booklib.domain.Account;
 import io.cgcclub.booklib.domain.Book;
+import io.cgcclub.booklib.dto.BookDto;
 import io.cgcclub.booklib.repository.BookDao;
 import io.cgcclub.booklib.service.MailService;
+import io.cgcclub.booklib.service.book.BookService;
 import io.cgcclub.booklib.web.support.MediaTypes;
 import io.cgcclub.booklib.web.support.RestException;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,11 +35,14 @@ public class BookEndpoint {
 	private BookDao bookDao;
 
 	@Autowired
+	private BookService bookService;
+
+	@Autowired
 	private MailService mailService;
 
 	@RequestMapping(value = "/rest/books", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public Iterable<Book> listAllBook() {
-		return bookDao.findAll();
+	public List<BookDto> listAllBook() {
+		return bookService.findAll();
 	}
 
 	@RequestMapping(value = "/rest/books", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)

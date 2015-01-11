@@ -18,6 +18,7 @@ public class Book {
 
 	@Id
 	public Long id;
+	public String bookId;
 	public String title;
 	public String url;
 	public String status;
@@ -38,7 +39,8 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", url=" + url
+		return "Book [id=" + id + ", bookId=" + bookId + ", title=" + title
+				+ ", url=" + url
 				+ ", status=" + status + ", owner=" + owner + ", onboardDate="
 				+ onboardDate + ", borrower=" + borrower + ", borrowDate="
 				+ borrowDate + "]";
