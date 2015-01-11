@@ -1,3 +1,16 @@
+/*
+ * angular-deckgrid-demo
+ *
+ * Copyright(c) 2013 André König <akoenig@posteo.de>
+ * MIT Licensed
+ *
+ */
+
+/**
+ * @author André König (andre.koenig@posteo.de)
+ *
+ */
+
 body {
     background:rgba(0, 0, 0, .04);
     font-family: 'Open Sans', sans-serif;
@@ -231,7 +244,7 @@ img {
 
     .l-header {
         font-size:80%;
-        margin-top:0px;
+        margin-top:145px;
         padding:5px;
         text-align:center;
     }
