@@ -1,12 +1,10 @@
-{map, range} = require 'ramda'
-app = angular.module 'BookLibraryApp', ['ngMaterial']
+Route = require './route'
 
-# Book list controller, contollers will be defined in seperated files later
-app.controller 'BookShelfCtrl', ($scope) ->
-  # generate dummy books
-  $scope.books = map (idx) ->
-      title: "Angular in Action"
-      author: "James Tong"
-      iconUrl: "http://lorempixel.com/106/158/people/" + idx
-      notes: "A fantastic tech book."
-    , range 1, 10
+app = angular.module 'BookLibraryApp', ['ngRoute', 'ngMaterial']
+
+app.controller 'MainController', ($scope, $route, $routeParams, $location) ->
+  $scope.$route = $route;
+  $scope.$location = $location;
+  $scope.$routeParams = $routeParams;
+
+app.config Route

@@ -12,7 +12,7 @@ var config       = require('../config').browserify;
 
 var browserifyTask = function(callback, devMode) {
   var bundleQueue = config.bundleConfigs.length;
-  var browserifyThis = function(bundleConfig) {
+  var browserifyThis = _.forEach(function(bundleConfig) {
     if(devMode) {
       // Add watchify args and debug (sourcemaps) option
       bundleConfig = _.mixin(bundleConfig, watchify.args, { debug: true })
@@ -71,10 +71,10 @@ var browserifyTask = function(callback, devMode) {
     };
 
     return bundle();
-  };
+  });
 
   // Start bundling with Browserify for each bundleConfig specified
-  config.bundleConfigs.forEach(browserifyThis);
+  browserifyThis(config.bundleConfigs);
 };
 
 gulp.task('browserify', browserifyTask);
