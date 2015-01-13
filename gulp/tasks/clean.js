@@ -1,5 +1,5 @@
 var gulp    = require('gulp');
-var rimraf  = require('rimraf'); 
+var rimraf  = require('rimraf');
 var _       = require('ramda');
 var config  = require('../config').clean;
 

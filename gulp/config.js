@@ -7,11 +7,11 @@ module.exports = {
   vendor : {
     js: {
       src: [
-          bowerSrc + '/angular/angular.js',
-          bowerSrc + '/angular-aria/angular-aria.js',
-          bowerSrc + '/angular-route/angular-route.js',
-          bowerSrc + '/angular-animate/angular-animate.js',
           bowerSrc + '/hammerjs/hammer.js',
+          bowerSrc + '/angular/angular.js',
+          bowerSrc + '/angular-ui-router/release/angular-ui-router.js',
+          bowerSrc + '/angular-animate/angular-animate.js',
+          bowerSrc + '/angular-aria/angular-aria.js',
           bowerSrc + '/angular-material/angular-material.js',
           bowerSrc + '/angular-deckgrid/angular-deckgrid.js'
         ],

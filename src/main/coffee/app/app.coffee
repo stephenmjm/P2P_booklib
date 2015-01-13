@@ -1,10 +1,6 @@
-Route = require './route'
+# the global application entry
+route = require './route'
 
-app = angular.module 'BookLibraryApp', ['ngRoute', 'ngMaterial']
-
-app.controller 'MainController', ($scope, $route, $routeParams, $location) ->
-  $scope.$route = $route;
-  $scope.$location = $location;
-  $scope.$routeParams = $routeParams;
-
-app.config Route
+angular
+  .module 'BookLibraryApp', ['ui.router', 'ngMaterial']
+  .config route
