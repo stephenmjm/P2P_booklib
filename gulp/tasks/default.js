@@ -1,3 +1,5 @@
 var gulp = require('gulp');
 
-gulp.task('default', ['clean', 'vendor', 'browserify', 'images', 'stylus']);
+gulp.task('build', ['clean', 'vendor', 'browserify', 'images', 'stylus']);
+
+gulp.task('default', ['build']);

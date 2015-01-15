@@ -1,14 +1,19 @@
-<md-content class="md-padding" layout="column">
+<md-content class="books" layout="column">
   <md-content class="md-padding search-box" layout="row" layout-align="center center">
     <input md-maxlength="30" name="search.query" ng-model="search.query">
-    <md-button class="md-primary">Search</md-button>
+    <md-button>Search</md-button>
   </md-content>
-  <md-list class="books" layout="row" layout-wrap>
-    <md-item flex ng-repeat="book in books">
-      <div class="book" layout="column" layout-align="center center">
-        <image ng-src="{{book.iconUrl}}"></image>
-        <p>{{book.title}}</p>
-      </div>
-    </md-item>
-  </md-list>
+  <div class="deckgrid clearfix" deckgrid source="books">
+    <div class="photo">
+      <a href="">
+          <div class="photo-wrapper">
+              <img ng-src="{{card.iconUrl}}" class="animation-fade" imageloaded loadedclass="animation-faded">
+          </div>
+          <div class="photo-description">
+              <h3>{{card.title}}</h3>
+              <p>{{card.title}}</p>
+          </div>
+      </a>
+    </div>
+  </div>
 </md-content>

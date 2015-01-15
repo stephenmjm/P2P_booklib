@@ -3,12 +3,14 @@ var sourcemaps   = require('gulp-sourcemaps');
 var concat       = require('gulp-concat');
 var _            = require('ramda');
 
-var concatThis = _.compose(_.forEach(function(config) {
+var concatThis = function(config) {
   gulp.src(config.src)
       .pipe(concat(config.outputName))
       .pipe(gulp.dest(config.dest));
-}), _.values);
+}
+
+var concatAll = _.compose(_.forEach(concatThis), _.filter(_.is(Object)), _.values);
 
 gulp.task('vendor', function() {
-  concatThis(require('../config').vendor);
+  concatAll(require('../config').vendor);
 });

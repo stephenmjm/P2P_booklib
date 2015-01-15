@@ -12,6 +12,7 @@ module.exports = {
     }
   },
   vendor : {
+    watch: bowerSrc + '/**',
     js: {
       src: [
           bowerSrc + '/hammerjs/hammer.js',
@@ -31,13 +32,8 @@ module.exports = {
       outputName: 'vendor.css'
     }
   },
-  browserSync: {
-    server: {
-      // Serve up our build folder
-      baseDir: dest
-    }
-  },
   stylus: {
+    watch: src + '/app/**/*.styl',
     src: src + '/app/**/*.styl',
     dest: dest + '/css',
     outputName: 'main.css',
@@ -48,10 +44,12 @@ module.exports = {
     }
   },
   images: {
+    watch: src + '/images/**',
     src: src + '/images/**',
     dest: dest + '/images'
   },
   browserify: {
+    watch: [src + '/app/**/*.coffee', src + '/app/**/*.html'],
     // A separate bundle will be generated for each
     // bundle config in the list below
     bundleConfigs: [{
@@ -63,10 +61,5 @@ module.exports = {
       // list of modules to make require-able externally
       require: ['ramda']
     }]
-  },
-  production: {
-    cssSrc: dest + '/*.css',
-    jsSrc: dest + '/*.js',
-    dest: dest
   }
 };

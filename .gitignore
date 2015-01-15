@@ -3,6 +3,7 @@ target/
 .classpath
 .project
 .idea/
+.DS_Store
 *.iml
 node
 bower_components
