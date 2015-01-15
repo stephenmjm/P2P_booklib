@@ -1,7 +1,7 @@
-<md-list>
-  <md-item ng-repeat="book in books">
+<md-list role="list" class="md-bottom-sheet md-grid">
+  <md-item ng-repeat="book in books" role="listitem">
     <md-item-content>
-      <div class="md-tile-left">
+      <div class="md-icon-continer">
           <img ng-src="{{book.iconUrl}}" class="face" alt="{{book.title}}">
       </div>
       <div class="md-tile-content">
