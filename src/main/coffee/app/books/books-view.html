@@ -1,16 +1,14 @@
-<md-list role="list" class="md-bottom-sheet md-grid">
-  <md-item ng-repeat="book in books" role="listitem">
-    <md-item-content>
-      <div class="md-icon-continer">
-          <img ng-src="{{book.iconUrl}}" class="face" alt="{{book.title}}">
+<md-content class="md-padding" layout="column">
+  <md-content class="md-padding search-box" layout="row" layout-align="center center">
+    <input md-maxlength="30" name="search.query" ng-model="search.query">
+    <md-button class="md-primary">Search</md-button>
+  </md-content>
+  <md-list class="books" layout="row" layout-wrap>
+    <md-item flex ng-repeat="book in books">
+      <div class="book" layout="column" layout-align="center center">
+        <image ng-src="{{book.iconUrl}}"></image>
+        <p>{{book.title}}</p>
       </div>
-      <div class="md-tile-content">
-        <h3>{{book.title}}</h3>
-        <h4>{{book.author}}</h4>
-        <p>
-          {{book.notes}}
-        </p>
-      </div>
-    </md-item-content>
-  </md-item>
-</md-list>
+    </md-item>
+  </md-list>
+</md-content>
