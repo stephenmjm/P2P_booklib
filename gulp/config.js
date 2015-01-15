@@ -4,6 +4,13 @@ var bowerSrc = './bower_components'
 
 module.exports = {
   clean: [dest + '/css', dest + '/scripts'],
+  server: {
+    development: {
+      root: [dest],
+      livereload: true,
+      port: 8000
+    }
+  },
   vendor : {
     js: {
       src: [
