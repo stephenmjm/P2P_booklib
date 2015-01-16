@@ -1,13 +1,13 @@
 <md-content class="books" layout="column">
   <md-content class="md-padding search-box" layout="row" layout-align="center center">
-    <input md-maxlength="30" name="search.query" ng-model="search.query">
+    <input flex="33" md-maxlength="120" name="search.query" ng-model="search.query">
     <md-button>Search</md-button>
   </md-content>
   <div class="deckgrid clearfix" deckgrid source="books">
     <div class="photo">
       <a href="">
           <div class="photo-wrapper">
-              <img ng-src="{{card.iconUrl}}" class="animation-fade" imageloaded loadedclass="animation-faded">
+              <img ng-src="{{card.iconUrl}}" class="animation-fade" image-loaded loadedclass="animation-faded">
           </div>
           <div class="photo-description">
               <h3>{{card.title}}</h3>

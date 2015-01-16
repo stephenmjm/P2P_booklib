@@ -1,10 +1,7 @@
 # the global application entry
-route       = require './route'
-theme       = require './theme'
-loadEffect  = require './helper/load-effect'
+require './library'
+require './books'
 
 angular
-  .module 'BookLibraryApp', ['ui.router', 'akoenig.deckgrid', 'ngMaterial']
-  .config route
-  .directive 'imageloaded', [loadEffect]
-  #.config theme
+  .module 'BookLibraryApp', ['library', 'books']
+  .config (require './app.router')
