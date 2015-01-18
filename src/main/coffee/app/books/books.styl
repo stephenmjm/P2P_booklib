@@ -1,23 +1,14 @@
-.loginBox
-  max-width: 90%
-  width: 500px
+.animation-fade
+  opacity: 0
 
-.stretch input
-  width: 100%
+.animation-faded
+  opacity: 1
 
-.book
-  width: 150px
-  border: 1px solid silver
-  padding: 2px
-  margin: 2px
-
-.face
-  border-radius: 50px
-  border: 1px solid silver
-  box-shadow: 2px 2px 1px silver
-  width: 100px
-  height: 100px
-  margin: 1px
+.animation-faded
+  -webkit-transition: opacity 1s linear .2s
+  -moz-transition: opacity 1s linear .2s
+  -o-transition: opacity 1s linear .2s
+  transition: opacity 1s linear .2s
 
 .books
   padding-bottom: 50px
@@ -49,110 +40,58 @@
     height: auto
     max-width: 100%
 
-  .animation-fade
-    opacity: 0
-
-  .animation-faded
-    opacity: 1
-
-  .animation-faded
-    -webkit-transition: opacity 1s linear .2s
-    -moz-transition: opacity 1s linear .2s
-    -o-transition: opacity 1s linear .2s
-    transition: opacity 1s linear .2s
-
   .image-round
     border-radius: 50%
 
-  .clearfix:before, .clearfix:after
-    content: " "
-    display: table
-
-  .clearfix:after
-    clear: both
-
-  .deckgrid
-    padding: 10px
-
   .deckgrid[deckgrid]::before
-    content: '4 .column.size-1-4'
+    content: '5 .column.size-1-5'
     font-size: 0
     visibility: hidden
 
-  .deckgrid .column
-    float: left
-
-  .photo
+  .book
     background: #fff url(images/spinner.gif) center 30px no-repeat
     border: 1px solid rgba(0, 0, 0, .15)
     border-radius: 3px
     margin: 0 10px 10px 0
     position: relative
 
-  .photo .photo-index
-    background: rgba(0, 0, 0, .9)
-    color: #fff
-    position: absolute
-    height: 100%
-    text-align: center
-    width: 100%
-    z-index: 99
+    .book-index
+      background: rgba(0, 0, 0, .9)
+      color: #fff
+      position: absolute
+      height: 100%
+      text-align: center
+      width: 100%
+      z-index: 99
+      
+      p:first-child
+        margin-top: 10px
 
-  .photo .photo-index p:first-child
-    margin-top: 10px
+    .book-wrapper
+      min-height: 60px
 
-  .photo .photo-wrapper
-    min-height: 60px
-
-  .photo .photo-description
-    padding: 15px
-
-  .deckgrid .column.size-1-5
-    width: 200px
-
-  .deckgrid .column.size-1-4
-    width: 250px
-
-  .deckgrid .column.size-1-3
-    width: 250px
-
-  .deckgrid .column.size-1-2
-    width: 250px
-
-  .deckgrid .column.size-1-1
-    width: 280px
+    .book-description
+      padding: 15px
     
 
 @media screen and (max-width: 1000px)
   .books
-    .deckgrid
-      width: 800px
-
     .deckgrid[deckgrid]::before
-      content: '4 .column.size-1-4'
+      content: '5 .column.size-1-5'
 
 @media screen and (max-width: 840px)
   .books  
-    .deckgrid
-      width: 760px
-
     .deckgrid[deckgrid]::before
-      content: '3 .column.size-1-3'
+      content: '4 .column.size-1-4'
 
 
 @media screen and (min-width: 481px) and (max-width: 768px)
   .books
-    .deckgrid
-      width: 500px
-
     .deckgrid[deckgrid]::before
-      content: '2 .column.size-1-2'
+      content: '3 .column.size-1-3'
 
 @media only screen and (max-device-width : 320px),
        only screen and (max-width : 480px) 
-  .books
-    .deckgrid
-      width: 280px
-      
+  .books      
     .deckgrid[deckgrid]::before
-      content: '1 .column.size-1-1'
+      content: '2 .column.size-1-2'

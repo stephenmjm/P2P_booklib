@@ -3,17 +3,17 @@
     <input flex="33" md-maxlength="120" name="search.query" ng-model="search.query">
     <md-button>Search</md-button>
   </md-content>
-  <div class="deckgrid clearfix" deckgrid source="books">
-    <div class="photo">
+  <md-content books-shelf books="books" layout-align="center" layout="row" class="books">
+    <div class="book">
       <a href="">
-          <div class="photo-wrapper">
-              <img ng-src="{{card.iconUrl}}" class="animation-fade" image-loaded loadedclass="animation-faded">
-          </div>
-          <div class="photo-description">
-              <h3>{{card.title}}</h3>
-              <p>{{card.title}}</p>
-          </div>
+        <div class="book-wrapper">
+          <img ng-src="{{book.iconUrl}}" class="animation-fade" image-loaded loadedclass="animation-faded">
+        </div>
+        <div class="book-description">
+          <h5>{{book.title}}</h3>
+          <p>{{book.notes}}</p>
+        </div>
       </a>
     </div>
-  </div>
+  </md-content>
 </md-content>
