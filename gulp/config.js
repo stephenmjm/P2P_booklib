@@ -3,7 +3,7 @@ var src = './src/main/coffee';
 var bowerSrc = './bower_components'
 
 module.exports = {
-  clean: [dest + '/css', dest + '/scripts'],
+  clean: [dest + '/css', dest + '/scripts', dest + '/images'],
   server: {
     development: {
       root: [dest],
