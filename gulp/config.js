@@ -21,7 +21,7 @@ module.exports = {
           bowerSrc + '/angular-animate/angular-animate.js',
           bowerSrc + '/angular-aria/angular-aria.js',
           bowerSrc + '/angular-material/angular-material.js',
-          bowerSrc + '/angular-deckgrid/angular-deckgrid.js'
+          bowerSrc + '/angular-media-queries/match-media.js'
         ],
       dest: dest + '/scripts',
       outputName: 'vendor.js'
