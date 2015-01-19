@@ -22,14 +22,17 @@ module.exports = ->
       md: '(min-width: 600px) and (max-width: 960px)'
       sm: '(min-width: 480px) and (max-width: 600px)'
       xs: '(max-width: 480px)'
-    mapping = lg: 8, md: 6, sm: 4, xs: 2
+    mapping = lg: 6, md: 4, sm: 3, xs: 2
     transform = (columns, books)->
       matrixfy = (matrix, book, index, books)->
         r = (index + 1) % columns or columns
         matrix[r - 1] = (append book, matrix[r - 1])
         matrix
       reduce.idx matrixfy, (map (-> []), (range 1, columns + 1)), books
-    render = (columns)-> $scope.matrix = transform columns, $scope.books
+    render = (columns)=>
+      if @columns isnt columns
+        @columns = columns
+        $scope.matrix = transform @columns, $scope.books
     (compose (forEach render),
       (map (rule)-> mapping[rule]),
       (filter (rule)-> screenSize.is rule),

@@ -44,8 +44,8 @@ module.exports = {
     }
   },
   images: {
-    watch: src + '/images/**',
-    src: src + '/images/**',
+    watch: src + '/assets/images/**',
+    src: src + '/assets/images/**/*.*',
     dest: dest + '/images'
   },
   browserify: {
