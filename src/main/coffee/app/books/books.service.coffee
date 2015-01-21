@@ -3,7 +3,7 @@
 createBook = (num)->
   title: "Angular in Action"
   owner: "James Tong"
-  iconUrl: "http://lorempixel.com/600/800/people/" + num
+  iconUrl: "http://placehold.it/600x800&text=Book + #{num}"
   notes: "A fantastic tech book."
 
 module.exports = ()->
