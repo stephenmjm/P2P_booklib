@@ -26,6 +26,8 @@
     "angular-ui-router": "~0.2.13"
   },
   "devDependencies": {
-    "angular-media-queries": "~0.3.0"
+    "angular-media-queries": "~0.3.0",
+    "angular-messages": "~1.3.10",
+    "ngstorage": "~0.3.0"
   }
 }

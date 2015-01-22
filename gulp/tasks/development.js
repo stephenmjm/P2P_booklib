@@ -6,6 +6,7 @@ var Storage     = promisify(require('nedb'), 'nedb');
 var R           = require('ramda');
 var gulp        = require('gulp');
 var jwt         = require("jsonwebtoken");
+var config      = require('../config').server;
 
 // init storage
 db              = {}
@@ -18,7 +19,7 @@ R.compose(
   R.values)(db);
 
 // app server
-var port  = process.env.PORT || 3000
+var port  = process.env.PORT || config.development.port;
 app       = express();
 
 gulp.task('development', function() {
@@ -28,6 +29,7 @@ gulp.task('development', function() {
 });
 
 // middle-wares
+app.use(express.static(config.development.root));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
@@ -116,7 +118,9 @@ app.get('/rest/book', function(req, res) {
   db.books.find({})
   .exec()
   .then(function(books) {
-    res.json(books);
+    res.json(R.filter(
+      function(book) {book !== null},
+      books));
   })
   .fail(function(reason) {
     res.json({message: 'error' + reason});

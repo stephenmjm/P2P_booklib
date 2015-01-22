@@ -1,4 +1,4 @@
-{filter, map, range, where} = require 'ramda'
+{filter, map, range, match} = require 'ramda'
 
 createBook = (num)->
   title: "Angular in Action"
@@ -9,5 +9,5 @@ createBook = (num)->
 module.exports = ()->
   books = (map createBook, (range 1, 30))
   all: -> books
-  where: (condition)->
-    (filter (where condition), books)
+  filter: (term)->
+    filter ((book)-> match(term, book.title)), books

@@ -1,14 +1,16 @@
-<div ng-app="BookLibraryApp" layout="column" layout-align="center center" layout-fill>
-  <section class="main md-whiteframe-z1" layout="column">
-    <md-toolbar class="navbar" layout="row">
-      <h1 class="md-toolbar-tools">
-        <a ui-sref="home.books">
-          <div tyle="line-height:40px; text-indent: 15px;">Book Library</div>
-        </a>
-        <span flex></span>
-        <md-button class="md-warn md-raised right">Sign in</md-button>
-      </h1>
-    </md-toolbar>
-    <div ui-view></div>
-  </section>
-</div>
+<section class="md-whiteframe-z1" layout="column">
+  <md-toolbar class="navbar" layout="row">
+    <h1 class="md-toolbar-tools">
+      <a ui-sref="home.books">
+        <div tyle="line-height:40px; text-indent: 15px;">Book Library</div>
+      </a>
+      <span flex></span>
+      <md-button ng-if="! authenticated" ng-click="signup($event)">sign up</md-button>
+      <div ng-if="authenticated">
+        <a>{{email}}</a>
+        <md-button ng-click="signout($event)">sign out</md-button>
+      </div>
+    </h1>
+  </md-toolbar>
+  <div ui-view></div>
+</section>

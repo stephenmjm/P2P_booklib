@@ -1,0 +1,42 @@
+<md-dialog layout="column">
+  <md-toolbar class="md-primary">
+    <h1 class="md-toolbar-tools">
+      Sign up, Please!
+    </h1>
+  </md-toolbar>
+  <md-content class="md-padding">
+    <form>
+      <md-input-container>
+        <label>Email</label>
+        <input md-maxlength="30" required name="email" ng-model="account.email">
+        <div ng-messages="account.email.$error">
+          <div ng-message="required">This is required.</div>
+          <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Password</label>
+        <input required name="password" ng-model="account.password">
+        <div ng-messages="account.password.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Confirm Password</label>
+        <input required name="confirmPassword" ng-model="account.confirmPassword">
+        <div ng-messages="account.confirmPassword.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+    </form>
+  </md-content>
+  <div class="md-actions" layout="row">
+    <span flex></span>
+    <md-button ng-click="cancel()">
+     Cancel
+    </md-button>
+    <md-button ng-click="signup()" class="md-primary">
+      Sign up
+    </md-button>
+  </div>
+</md-dialog>

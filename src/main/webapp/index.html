@@ -6,8 +6,10 @@
   <link rel="stylesheet" href="css/vendor.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-app="BookLibraryApp">
-  <div ui-view></div>
+<body layout="row" layout-align="center">
+  <div ng-app="BookLibraryApp" layout="column" layout-align="center center" class="library">
+    <div ui-view></div>
+  </div>
   <script src="scripts/vendor.js"></script>
   <script src="scripts/main.js"></script>
 </body>

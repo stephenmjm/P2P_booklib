@@ -1,7 +1,7 @@
 <md-content class="books" layout="column">
   <md-content class="md-padding search-box" layout="row" layout-align="center center">
-    <input flex="33" md-maxlength="120" name="search.query" ng-model="search.query">
-    <md-button>Search</md-button>
+    <input flex="33" md-maxlength="120" name="search.query" ng-model="term">
+    <md-button ng-click="search">Search</md-button>
   </md-content>
   <md-content books-shelf books="books" layout-align="center" layout="row" class="books">
     <div class="book">
