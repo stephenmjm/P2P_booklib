@@ -48,10 +48,15 @@
     "watchify": "~2.2.1",
     "debowerify": "~1.2.0",
     "html2js-browserify": "0.0.2",
-    "express": "~4.10.7",
+    "express": "~4.11.1",
     "proxy-middleware": "~0.9.0",
     "url": "~0.10.2",
-    "gulp-connect": "~2.2.0"
+    "gulp-connect": "~2.2.0",
+    "nedb": "~1.1.1",
+    "jsonwebtoken": "~3.2.2",
+    "body-parser": "~1.10.2",
+    "morgan": "~1.5.1",
+    "promisify-me": "~0.1.0"
   },
   "dependencies": {
     "ramda": "~0.8.0"
